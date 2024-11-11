@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Operations App</title>
+  <style>
+    body { font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f4f4f9; }
+    .container { max-width: 400px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; font-weight: bold; margin-bottom: 5px; }
+    input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+    button { width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    button:hover { background-color: #45a049; }
+    .result { margin-top: 15px; font-size: 18px; font-weight: bold; color: #333; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Math Operations</h2>
+
+    <div class="form-group">
+      <label for="num1">Number 1:</label>
+      <input type="number" id="num1" required>
+    </div>
+
+    <div class="form-group">
+      <label for="num2">Number 2:</label>
+      <input type="number" id="num2" required>
+    </div>
+
+    <div class="form-group">
+      <label for="operation">Operation:</label>
+      <select id="operation">
+        <option value="add">Add</option>
+        <option value="multiply">Multiply</option>
+      </select>
+    </div>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    async function calculate() {
+        const num1 = document.getElementById('num1').value;
+        const num2 = document.getElementById('num2').value;
+        const operation = document.getElementById('operation').value;
+
+        try {
+            const response = await fetch('http://localhost:8000/math', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                num1: parseFloat(num1),
+                num2: parseFloat(num2),
+                operation: operation
+            })
+            });
+
+            if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            document.getElementById('result').textContent = `Result: ${data.result}`;
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('result').textContent = `Error: ${error.message}`;
+        }
+        }
+
+  </script>
+
+</body>
+</html>
