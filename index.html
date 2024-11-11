@@ -50,7 +50,7 @@
         const operation = document.getElementById('operation').value;
 
         try {
-            const response = await fetch('http://localhost:8000/math', {
+            const response = await fetch('https://math-api-latest.onrender.com/math', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
