@@ -28,7 +28,8 @@ class Math:
     def multiply(self):
         return self.a * self.b
 
-
+    def substract(self):
+        return self.a - self.b
 # Define request body model
 class MathRequest(BaseModel):
     num1: float
@@ -43,8 +44,10 @@ def perform_math_operation(request: MathRequest):
         result = math_operations.add()
     elif request.operation == 'multiply':
         result = math_operations.multiply()
+    elif request.operation == 'substract':
+        result = math_operations.substract()
     else:
-        return {"error": "Invalid operation. Please select 'add' or 'multiply'."}
+        return {"error": "Invalid operation. Please select 'add', 'multiply' or 'substract'."}
 
     return {"result": result}
 
